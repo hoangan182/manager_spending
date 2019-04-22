@@ -5,7 +5,7 @@ Simple example use dabase and bloc pattern to build three simple functions. In t
  - Login
  - Save data to sqlite
  - Find and show data to listview 
- - Find total and show total
+ - Find total and show total./n
 I have some issue:
 - I tried to use autocomplete text field and I can not to put current text when fill data back to text field. 
 Finaly I used text field and trying to find the way to solve.
