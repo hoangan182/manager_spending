@@ -33,12 +33,30 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.hoangan.my_spending"
+        applicationId "com.hoangan.MySpending"
         minSdkVersion 16
         targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        // It's not necessary to specify, but I like to keep the debug keystore
+        // in SCM so all our debug builds (on all workstations) use the same
+        // key for convenience
+        debug {
+            storeFile file("keystore/myspending.jks")
+            storePassword "myspending"
+            keyAlias "myspending"
+            keyPassword "myspending"
+        }
+        release {
+            storeFile file("keystore/myspending.jks")
+            storePassword "myspending"
+            keyAlias "myspending"
+            keyPassword "myspending"
+        }
     }
 
     buildTypes {

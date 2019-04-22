@@ -1,9 +1,7 @@
 import 'dart:io';
 
-import 'package:my_spending/databases/database.dart';
-import 'package:my_spending/models/Income.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:MySpending/databases/database.dart';
+import 'package:MySpending/models/Income.dart';
 import 'package:sqflite/sqflite.dart';
 
 class IncomeDB {
@@ -61,14 +59,6 @@ class IncomeDB {
     return raw;
   }
 
-  //Read
-  //Get income by id
-//  getIncome(int id) async {
-//    final db = await database;
-//    var res = await db.query("Income", where: "id = ?", whereArgs: [id]);
-//    return res.isNotEmpty ? Income.fromMap(res.first) : null;
-//  }
-
   //get income by date, content and money
   Future<Income> getIncomeByContent(
       int idUser, String dateShow, String content, double money) async {
@@ -84,7 +74,6 @@ class IncomeDB {
     final db = await database;
     var res = await db.query("Income", where: "idUser = ?", whereArgs: [idUser]);
     List<Income> incomeList = res.isNotEmpty ? res.map((c) => Income.fromMap(c)).toList() : [];
-    print('database income: '+incomeList.length.toString());
     return incomeList;
   }
 
@@ -94,7 +83,6 @@ class IncomeDB {
     final db = await database;
     var res = await db.update("Income", income.toMap(),
         where: "id = ? AND idUser = ?", whereArgs: [income.id, income.idUser]);
-    print(res);
     return res;
   }
 

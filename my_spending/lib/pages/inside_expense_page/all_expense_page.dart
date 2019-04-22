@@ -2,8 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:my_spending/blocs/expense_bloc.dart';
-import 'package:my_spending/models/Expense.dart';
+import 'package:MySpending/blocs/expense_bloc.dart';
+import 'package:MySpending/models/Expense.dart';
+import 'package:MySpending/pages/input_edit_pages/edit_expense_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AllExpensePage extends StatefulWidget {
@@ -20,7 +21,6 @@ class _AllExpensePageState extends State<AllExpensePage> {
   @override
   void initState() {
     super.initState();
-    print('bbbbbb');
     ExpenseBloc expenseBloc = BlocProvider.of<ExpenseBloc>(context);
     getExpenseList(expenseBloc);
   }
@@ -28,7 +28,6 @@ class _AllExpensePageState extends State<AllExpensePage> {
   getExpenseList(ExpenseBloc bloc) async{
     sharedPreferences = await SharedPreferences.getInstance();
     idUser = sharedPreferences.getInt('idUser');
-    print('cccccc');
     bloc.getAllExpense(idUser);
     bloc.getTotalExpense(idUser);
   }
@@ -54,9 +53,11 @@ class _AllExpensePageState extends State<AllExpensePage> {
                       SliverList(
                         delegate: SliverChildBuilderDelegate(
                               (BuildContext context, int index) {
-                            var mMoney = snapshot.data[index].expense;
-                            var mDate = snapshot.data[index].date;
-                            var mContent = snapshot.data[index].content;
+                            Expense expense = snapshot.data[index];
+                            var mMoney = expense.expense;
+                            String mDate = expense.date;
+                            print('date: ' + mDate);
+                            var mContent = expense.content;
                             return GestureDetector(
                                 child: Container(
                                   margin: EdgeInsets.only(left: 15.0, right: 15.0),
@@ -86,9 +87,7 @@ class _AllExpensePageState extends State<AllExpensePage> {
                                       )),
                                 ),
                                 onTap: () {
-                                  expenseBloc.findExpenseByContent(mDate, mContent, mMoney, idUser, context);
-                                  print(idUser.toString());
-                                  print('vừa click vào: '+mContent);
+                                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => EditExpensePage(expense: expense)));
                                 }
                             );
                           },
@@ -99,7 +98,7 @@ class _AllExpensePageState extends State<AllExpensePage> {
                   );
                 } else {
                   return Center(
-                    child: Text("Chưa có dữ liệu"),
+                    child: Text("There are no data"),
                   );
                 }
               }),

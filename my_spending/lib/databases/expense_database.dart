@@ -1,10 +1,7 @@
 
-import 'dart:io';
 
-import 'package:my_spending/databases/database.dart';
-import 'package:my_spending/models/Expense.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:MySpending/databases/database.dart';
+import 'package:MySpending/models/Expense.dart';
 import 'package:sqflite/sqflite.dart';
 
 class ExpenseDB{
@@ -14,32 +11,6 @@ class ExpenseDB{
 
   Future<Database> database = DatabaseDB.database;
 
-//  Database _database;
-//
-//  Future<Database> get database async{
-//    _database = await database;
-//    return _database;
-//  }
-
-//  Future<Database> get database async{
-//    if(_database != null) return  _database;
-//    _database = await initDB();
-//    return _database;
-//  }
-//
-//  initDB() async{
-////    Directory documentsDirectory = await getApplicationDocumentsDirectory();
-////    String path = join(documentsDirectory.path, "IncomeDB.db");
-//
-//    var databasesPath = await getDatabasesPath();
-//    String path = join(databasesPath, "ExpenseDB.db");
-//
-//
-//    return await openDatabase(path, version: 1, onOpen: (exdb) {},
-//        onCreate: (Database exdb, int version) async {
-//          await exdb.execute("CREATE TABLE Expense (id INTEGER PRIMARY KEY, dateShow TEXT, dateConvert TEXT, content TEXT, expense TEXT, month TEXT, year TEXT,idUser TEXT)");
-//        });
-//  }
 
   //CRUD
   //Create
@@ -50,8 +21,8 @@ class ExpenseDB{
     int id = table.first["id"];
     //insert to the table using the new id
     var raw = await db.rawInsert(
-        "INSERT Into Expense (id, date, dateCon, content, expense, day, month, year, idUser) VALUES (?,?,?,?,?,?,?,?,?)",
-        [id, mExpense.date, mExpense.dateCon, mExpense.content, mExpense.expense, mExpense.day, mExpense.month, mExpense.year]);
+        "INSERT Into Expense (id, date, dateCon, content, expense, month, year, idUser) VALUES (?,?,?,?,?,?,?,?)",
+        [id, mExpense.date, mExpense.dateCon, mExpense.content, mExpense.expense, mExpense.month, mExpense.year, mExpense.idUser]);
     return raw;
   }
 

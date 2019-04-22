@@ -25,7 +25,8 @@ class DatabaseDB{
         onCreate: (Database db, int version) async {
           await db.execute("CREATE TABLE UserMember (id INTEGER PRIMARY KEY, userName TEXT, passWord TEXT, phoneNumber TEXT)");
           await db.execute("CREATE TABLE Income (id INTEGER PRIMARY KEY, dateShow TEXT, dateConvert TEXT, content TEXT, income TEXT, month TEXT, year TEXT,idUser TEXT)");
-          await db.execute("CREATE TABLE Expense (id INTEGER PRIMARY KEY, date TEXT, dateCon TEXT, content TEXT, expense TEXT, day TEXT, month TEXT, year TEXT,idUser TEXT)");
+          await db.execute("CREATE TABLE Expense (id INTEGER PRIMARY KEY, date TEXT, dateCon TEXT, content TEXT, expense TEXT, month TEXT, year TEXT,idUser TEXT)");
+          await db.execute("CREATE TABLE Motor (id INTEGER PRIMARY KEY, idUser TEXT, dateShow TEXT, dateCon TEXT, dateNext TEXT, year TEXT, content TEXT, kind TEXT, money TEXT)");
         });
   }
 

@@ -2,21 +2,25 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_spending/blocs/expense_bloc.dart';
+import 'package:MySpending/blocs/expense_bloc.dart';
 
-import 'package:my_spending/blocs/forgot_password_bloc.dart';
-import 'package:my_spending/blocs/income_bloc.dart';
-import 'package:my_spending/blocs/login_bloc.dart';
-import 'package:my_spending/blocs/register_bloc.dart';
-import 'package:my_spending/pages/choose_page.dart';
-import 'package:my_spending/pages/input_edit_pages/edit_income_page.dart';
-import 'package:my_spending/pages/forgot_pass_page.dart';
-import 'package:my_spending/pages/input_edit_pages/input_expense_page.dart';
-import 'package:my_spending/pages/main_pages/expense_page.dart';
-import 'package:my_spending/pages/main_pages/income_page.dart';
-import 'package:my_spending/pages/input_edit_pages/input_income_page.dart';
-import 'package:my_spending/pages/login_page.dart';
-import 'package:my_spending/pages/register_page.dart';
+import 'package:MySpending/blocs/forgot_password_bloc.dart';
+import 'package:MySpending/blocs/income_bloc.dart';
+import 'package:MySpending/blocs/login_bloc.dart';
+import 'package:MySpending/blocs/protect_motor_bloc.dart';
+import 'package:MySpending/blocs/register_bloc.dart';
+import 'package:MySpending/pages/choose_page.dart';
+import 'package:MySpending/pages/input_edit_pages/edit_income_page.dart';
+import 'package:MySpending/pages/forgot_pass_page.dart';
+import 'package:MySpending/pages/input_edit_pages/input_expense_page.dart';
+import 'package:MySpending/pages/input_edit_pages/input_motor_page.dart';
+import 'package:MySpending/pages/main_pages/expense_page.dart';
+import 'package:MySpending/pages/main_pages/income_page.dart';
+import 'package:MySpending/pages/input_edit_pages/input_income_page.dart';
+import 'package:MySpending/pages/login_page.dart';
+import 'package:MySpending/pages/main_pages/protect_motor_page.dart';
+import 'package:MySpending/pages/main_pages/setting_page.dart';
+import 'package:MySpending/pages/register_page.dart';
 
 
 class SimpleBlocDelegate extends BlocDelegate {
@@ -48,7 +52,7 @@ class _MyAppState extends State<MyApp> {
   final ForgotPasswordBloc _forgotPasswordBloc = ForgotPasswordBloc();
   final IncomeBloc _incomeBloc = IncomeBloc();
   final ExpenseBloc _expenseBloc = ExpenseBloc();
-
+  final ProtectMotorBloc _protectMotorBloc = ProtectMotorBloc();
 
 
   @override
@@ -58,6 +62,7 @@ class _MyAppState extends State<MyApp> {
     _forgotPasswordBloc.dispose();
     _incomeBloc.dispose();
     _expenseBloc.dispose();
+    _protectMotorBloc.dispose();
     super.dispose();
   }
 
@@ -70,7 +75,8 @@ class _MyAppState extends State<MyApp> {
           BlocProvider<RegisterBloc>(bloc: _registerBloc),
           BlocProvider<ForgotPasswordBloc>(bloc: _forgotPasswordBloc),
           BlocProvider<IncomeBloc>(bloc: _incomeBloc),
-          BlocProvider<ExpenseBloc>(bloc: _expenseBloc)
+          BlocProvider<ExpenseBloc>(bloc: _expenseBloc),
+          BlocProvider<ProtectMotorBloc>(bloc: _protectMotorBloc,)
 
         ],
         child: BlocBuilder(
@@ -85,10 +91,13 @@ class _MyAppState extends State<MyApp> {
                     '/choose_page': (BuildContext context) => ChoosePage(),
                     '/income_page': (BuildContext context) => IncomePage(),
                     '/expense_page': (BuildContext context) => ExpensePage(),
+                    '/protect_motor_page': (BuildContext context) => ProtectMotorPage(),
                     '/input_income_page': (BuildContext context) => InputIncomePage(),
                     '/input_expense_page': (BuildContext context) => InputExpensePage(),
+                    '/input_motor_page': (BuildContext context) => InputMotorPage(),
                     '/edit_income_page': (BuildContext context) => EditIncomePage(),
                     '/edit_expense_page': (BuildContext context) => EditIncomePage(),
+                    '/setting_page': (BuildContext context) => SettingPage()
 
                   });
             }

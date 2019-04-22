@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:MySpending/pages/input_edit_pages/edit_income_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:my_spending/blocs/income_bloc.dart';
-import 'package:my_spending/models/Income.dart';
+import 'package:MySpending/blocs/income_bloc.dart';
+import 'package:MySpending/models/Income.dart';
 
 
 class AllIncomePage extends StatefulWidget {
@@ -51,9 +52,10 @@ class _AllIncomePageState extends State<AllIncomePage> {
                       SliverList(
                         delegate: SliverChildBuilderDelegate(
                               (BuildContext context, int index) {
-                            var mMoney = snapshot.data[index].income;
-                            var mDate = snapshot.data[index].dateShow;
-                            var mContent = snapshot.data[index].content;
+                            Income income = snapshot.data[index];
+                            var mMoney = income.income;
+                            var mDate = income.dateShow;
+                            var mContent = income.content;
                             return GestureDetector(
                               child: Container(
                                 margin: EdgeInsets.only(left: 15.0, right: 15.0),
@@ -83,11 +85,7 @@ class _AllIncomePageState extends State<AllIncomePage> {
                                     )),
                               ),
                               onTap: () {
-                                incomeBLoc.findIncomeByContent(idUser, mDate, mContent, mMoney, context);
-                                print('vừa click vào: '+mContent);
-                                //Income income = new Income(id: mId, dateShow: mDate, dateConvert: mDateConvert, content: mContent, income: mMoney, month: mMonth, year: mYear);
-                                //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => EditIncomePage()));
-                                //Navigator.pushNamed(context, '/edit_income_page');
+                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => EditIncomePage(income: income)));
                               }
                             );
                           },
@@ -98,7 +96,7 @@ class _AllIncomePageState extends State<AllIncomePage> {
                   );
                 } else {
                   return Center(
-                    child: Text("Chưa có dữ liệu"),
+                    child: Text("There are no data"),
                   );
                 }
               }),

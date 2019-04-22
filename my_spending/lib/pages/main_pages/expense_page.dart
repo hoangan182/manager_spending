@@ -2,11 +2,11 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_spending/pages/inside_expense_page/all_expense_page.dart';
-import 'package:my_spending/pages/inside_expense_page/month_expense_page.dart';
-import 'package:my_spending/pages/inside_expense_page/year_expense_page.dart';
-import 'package:my_spending/pages/inside_income_page/month_income_page.dart';
-import 'package:my_spending/pages/inside_income_page/year_income_page.dart';
+import 'package:MySpending/pages/inside_expense_page/all_expense_page.dart';
+import 'package:MySpending/pages/inside_expense_page/month_expense_page.dart';
+import 'package:MySpending/pages/inside_expense_page/year_expense_page.dart';
+import 'package:MySpending/pages/inside_income_page/month_income_page.dart';
+import 'package:MySpending/pages/inside_income_page/year_income_page.dart';
 
 class ExpensePage extends StatefulWidget {
   @override

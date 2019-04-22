@@ -5,8 +5,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:my_spending/databases/expense_database.dart';
-import 'package:my_spending/models/Expense.dart';
+import 'package:MySpending/databases/expense_database.dart';
+import 'package:MySpending/models/Expense.dart';
 
 class ExpenseBloc extends Bloc{
 
@@ -39,16 +39,11 @@ class ExpenseBloc extends Bloc{
   Sink<double> get _inExpenseYear => _expenseYearController.sink;
   Stream<double> get outExpenseYear => _expenseYearController.stream;
 
-  StreamController<Expense> _findExpenseController = StreamController<Expense>.broadcast();
-  Sink<Expense> get _inFindExpense => _findExpenseController.sink;
-  Stream<Expense> get outFindExpense => _findExpenseController.stream;
 
 
   void getAllExpense(int idUser) async{
-    print(idUser.toString());
     _expenseList = await ExpenseDB.exdb.getAllExpense(idUser);
     if(_expenseList.length > 0){
-      print('Co ta: '+_expenseList.length.toString());
       _inExpenseList.add(_expenseList);
     }
   }
@@ -100,20 +95,9 @@ class ExpenseBloc extends Bloc{
     _inExpenseYear.add(_totalYear);
   }
 
-  findExpenseByContent(String dateShow, String content,double money, int idUser, BuildContext context) async{
-    Expense expense = await ExpenseDB.exdb.getExpenseByContent(dateShow, content, money, idUser);
 
-      if(expense != null){
-        _inFindExpense.add(expense);
-        Navigator.pushNamed(context, '/edit_expense_page');
-      }else{
-        _inFindExpense.add(expense);
-      }
-
-  }
-
-  void addExpense(String mDateShow, String mDateConvert, String mContent, double money,int mDay, int mMonth, int mYear, int midUser, BuildContext context){
-    Expense expense = new Expense(date: mDateShow, dateCon: mDateConvert, content: mContent, expense: money, day: mDay, month: mMonth, year: mYear, idUser: midUser);
+  void addExpense(String mDateShow, String mDateConvert, String mContent, double money, int mMonth, int mYear, int midUser, BuildContext context){
+    Expense expense = new Expense(date: mDateShow, dateCon: mDateConvert, content: mContent, expense: money, month: mMonth, year: mYear, idUser: midUser);
     var result = ExpenseDB.exdb.newExpense(expense);
     result.then((value){
       if(value>0){
@@ -139,13 +123,15 @@ class ExpenseBloc extends Bloc{
     });
   }
 
-  void updateExpense(int mId,String mDateShow, String mDateConvert, String mContent, double money, int mDay, int mMonth, int mYear, int mIdUser, BuildContext context){
-    Expense expense = new Expense(id: mId, date: mDateShow, dateCon: mDateConvert, content: mContent, day: mDay, expense: money, month: mMonth, year: mYear, idUser: mIdUser);
+  void updateExpense(int mId,String mDateShow, String mDateConvert, String mContent, double money, int mMonth, int mYear, int mIdUser, BuildContext context){
+    Expense expense = new Expense(id: mId, date: mDateShow, dateCon: mDateConvert, content: mContent, expense: money, month: mMonth, year: mYear, idUser: mIdUser);
     var result = ExpenseDB.exdb.updateExpense(expense);
     result.then((value){
       if(value>0){
-        print(money.toString());
-        print(value.toString());
+        final snackBar = SnackBar(
+          content: Text('Sửa thành công : ' + mContent),
+        );
+        Scaffold.of(context).showSnackBar(snackBar);
         new Timer(Duration(milliseconds: 500), () => Navigator.pop(context));
       }else{
         Fluttertoast.showToast(msg: 'Có lỗi trong quá trình update. Vui lòng thử lại!');
@@ -157,7 +143,11 @@ class ExpenseBloc extends Bloc{
     var result = ExpenseDB.exdb.deleteExpense(mId, idUser);
     result.then((value){
       if(value>0){
-        Navigator.pop(context);
+        final snackBar = SnackBar(
+          content: Text('Xóa thành công'),
+        );
+        Scaffold.of(context).showSnackBar(snackBar);
+        new Timer(Duration(milliseconds: 500), () => Navigator.pop(context));
       }else{
         Fluttertoast.showToast(msg: 'Có lỗi trong quá trình delete. Vui lòng thử lại!');
       }
@@ -173,7 +163,6 @@ class ExpenseBloc extends Bloc{
     _expenseMonthController.close();
     _expenseYearListController.close();
     _expenseYearController.close();
-    _findExpenseController.close();
   }
 
   @override

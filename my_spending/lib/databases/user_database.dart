@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'dart:io';
-import 'package:my_spending/databases/database.dart';
-import 'package:my_spending/models/User.dart';
+
+import 'package:MySpending/databases/database.dart';
+import 'package:MySpending/models/User.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
+
 
 class UserDB {
 

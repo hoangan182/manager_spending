@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:my_spending/blocs/expense_bloc.dart';
-import 'package:my_spending/models/Expense.dart';
+import 'package:MySpending/blocs/expense_bloc.dart';
+import 'package:MySpending/models/Expense.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class YearExpensePage extends StatefulWidget {
@@ -159,7 +159,7 @@ class _YearExpensePageState extends State<YearExpensePage> {
                 );
               }else{
                 return Center(
-                  child: Text('They have not data!'),
+                  child: Text('There are no data!'),
                 );
               }
             },

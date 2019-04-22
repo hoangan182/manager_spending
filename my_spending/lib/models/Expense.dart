@@ -19,22 +19,19 @@ class Expense{
   String dateCon;
   String content;
   double expense;
-  int day;
   int month;
   int year;
   int idUser;
 
 
-  Expense({this.id, this.date, this.dateCon, this.content, this.expense,
-      this.day, this.month, this.year, this.idUser});
+  Expense({this.id, this.date, this.dateCon, this.content, this.expense, this.month, this.year, this.idUser});
 
   factory Expense.fromMap(Map<dynamic, dynamic> json) => new Expense(
       id: json['id'],
-      date: json['dateShow'],
-      dateCon: json['dateConvert'],
+      date: json['date'],
+      dateCon: json['dateCon'],
       content: json['content'],
       expense: double.parse(json['expense'] as String),
-      day: int.parse(json['day'] as String),
       month: int.parse(json['month'] as String),
       year: int.parse(json['year'] as String),
       idUser: int.parse(json['idUser'] as String)
@@ -47,7 +44,6 @@ class Expense{
     'dateCon': dateCon,
     'content': content,
     'expense': expense,
-    'day' : day,
     'month': month,
     'year': year,
     'idUser': idUser

@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:my_spending/databases/income_database.dart';
-import 'package:my_spending/models/Income.dart';
+import 'package:MySpending/databases/income_database.dart';
+import 'package:MySpending/models/Income.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class IncomeBloc extends Bloc{
@@ -63,6 +63,7 @@ class IncomeBloc extends Bloc{
     Income income = new Income(dateShow: mDateShow, dateConvert: mDateConvert, content: mContent, income: money, month: mMonth, year: mYear, idUser: midUser);
     var result = IncomeDB.icdb.newIncome(income);
     result.then((value){
+      print('value income là: ' + value.toString());
       if(value>0){
         _incomeList.add(income);
         _inIncome.add(_incomeList);
@@ -89,8 +90,10 @@ class IncomeBloc extends Bloc{
     var result = IncomeDB.icdb.updateIncome(income);
     result.then((value){
       if(value>0){
-        print(money.toString());
-        print(value.toString());
+        final snackBar = SnackBar(
+          content: Text('Sửa thành công : ' + mContent),
+        );
+        Scaffold.of(context).showSnackBar(snackBar);
         new Timer(Duration(milliseconds: 500), () => Navigator.pop(context));
       }else{
         Fluttertoast.showToast(msg: 'Có lỗi trong quá trình update. Vui lòng thử lại!');
@@ -102,7 +105,11 @@ class IncomeBloc extends Bloc{
     var result = IncomeDB.icdb.deleteIncome(mId, idUser);
     result.then((value){
       if(value>0){
-        Navigator.pop(context);
+        final snackBar = SnackBar(
+          content: Text('Xóa thành công'),
+        );
+        Scaffold.of(context).showSnackBar(snackBar);
+        new Timer(Duration(milliseconds: 500), () => Navigator.pop(context));
       }else{
         Fluttertoast.showToast(msg: 'Có lỗi trong quá trình delete. Vui lòng thử lại!');
       }
@@ -156,8 +163,6 @@ class IncomeBloc extends Bloc{
     result.then((value){
       if(value != null){
         _inIdIncome.add(value);
-        print('bloc có: ' + value.toString());
-        Navigator.pushNamed(context, '/edit_income_page');
       }else{
         _inIdIncome.add(null);
       }
@@ -165,18 +170,16 @@ class IncomeBloc extends Bloc{
 
   }
 
+
   void findIncomeByContent(int idUser, String dateShow, String content, double mIncome, BuildContext context) async {
     Income income = await IncomeDB.icdb.getIncomeByContent(idUser, dateShow, content, mIncome);
 
       if(income != null){
         _inFindIncome.add(income);
-        Navigator.pushNamed(context, '/edit_income_page');
       }else{
         _inFindIncome.add(income);
       }
   }
-
-
 
 
 

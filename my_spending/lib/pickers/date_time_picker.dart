@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:my_spending/pickers/input_dropdown.dart';
+import 'package:MySpending/pickers/input_dropdown.dart';
 
 class DateTimePicker extends StatelessWidget {
   final DateTime selectedDate;

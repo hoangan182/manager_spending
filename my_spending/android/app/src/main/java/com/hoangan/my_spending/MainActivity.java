@@ -1,4 +1,4 @@
-package com.hoangan.my_spending;
+package com.hoangan.MySpending;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

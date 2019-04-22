@@ -1,4 +1,4 @@
-# my_spending
+# MySpending
 
 A new Flutter application.
 

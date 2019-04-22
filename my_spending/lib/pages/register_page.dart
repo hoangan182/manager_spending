@@ -1,9 +1,7 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:my_spending/blocs/register_bloc.dart';
+import 'package:MySpending/blocs/register_bloc.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -26,62 +24,54 @@ class _RegisterPageState extends State<RegisterPage> {
         appBar: AppBar(
           title: Text('Register'),
         ),
-        body: ListView(
-
-          scrollDirection: Axis.vertical,
-          children: <Widget>[
-            Form(
-                key: _formKey,
-                child: Container(
-                  height: heightDevice - 56.0,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage('assets/bg_2usd.jpg'), fit: BoxFit.fill),
+        body: Form(
+            key: _formKey,
+            child: Container(
+              height: heightDevice - 56.0,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('assets/bg_2usd.jpg'), fit: BoxFit.fill),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  _buildUser(),
+                  SizedBox(
+                    height: 10.0,
                   ),
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: widthDevice / 6,
-                      ),
-                      _buildUser(),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      _buildPhone(bloc),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      _buildPass(),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      _buildRePass(),
-                      SizedBox(
-                        height: 30.0,
-                      ),
-                      _submitReg(bloc),
-                      SizedBox(height: 20.0),
-                      GestureDetector(
-                        child: Text(
-                          'If you have an account. Login!',
-                          style: TextStyle(
-                              color: Colors.blue[600],
-                              fontSize: 14.0,
-                              decoration: TextDecoration.underline,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center,
-                        ),
-                        onTap: () {
-                          Navigator.pushReplacementNamed(context, '/');
-                        },
-                      )
-                    ],
+                  _buildPhone(bloc),
+                  SizedBox(
+                    height: 10.0,
                   ),
-                ))
-          ],
-        ),
+                  _buildPass(),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  _buildRePass(),
+                  SizedBox(
+                    height: 30.0,
+                  ),
+                  _submitReg(bloc),
+                  SizedBox(height: 20.0),
+                  GestureDetector(
+                    child: Text(
+                      'If you have an account. Login!',
+                      style: TextStyle(
+                          color: Colors.blue[700],
+                          decoration: TextDecoration.underline,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                    onTap: () {
+                      Navigator.pushReplacementNamed(context, '/');
+                    },
+                  )
+                ],
+              ),
+            )),
       ),
-      onTap: (){
+      onTap: () {
         FocusScope.of(context).requestFocus(new FocusNode());
       },
     );
@@ -122,6 +112,7 @@ class _RegisterPageState extends State<RegisterPage> {
       padding: EdgeInsets.only(left: 10.0, right: 10.0),
       margin: EdgeInsets.only(left: 15.0, right: 15.0),
       child: TextFormField(
+        keyboardType: TextInputType.number,
         decoration: InputDecoration(
             labelText: 'Phone Number',
             enabledBorder: UnderlineInputBorder(
@@ -220,7 +211,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 'Register',
                 style: TextStyle(color: Colors.white),
               ),
-              color: Colors.blue[600],
+              color: Colors.blue[700],
               onPressed: () {
                 if (!_formKey.currentState.validate()) {
                   return;

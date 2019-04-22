@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:my_spending/blocs/expense_bloc.dart';
-import 'package:my_spending/pickers/date_time_picker.dart';
+import 'package:MySpending/blocs/expense_bloc.dart';
+import 'package:MySpending/pickers/date_time_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class InputExpensePage extends StatefulWidget {
@@ -42,88 +42,94 @@ class _InputExpensePageState extends State<InputExpensePage> {
 
     widthDevice = MediaQuery.of(context).size.width;
 
-
-    return Scaffold(
-      appBar: AppBar(title: Text('Input Expense'),),
-      body: Container(
-        margin: EdgeInsets.only(left: 15.0, right: 15.0),
-        child: ListView(
-          children: <Widget>[
-            SizedBox(height: 20.0,),
-            Text('Input expense below',style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
-            SizedBox(height: 15.0,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                _buildTitle('Date', widthDevice, 50.0),
-                Container(
-                  width: (widthDevice-30)*2/3,
-                  height: 50.0,
-                  child: DateTimePicker(
-                    selectedDate: _fromDate,
-                    selectDate: (DateTime date){
-                      setState(() {
-                        _fromDate = date;
-                      });
-                    },
-                  ),
-                )
-              ],
-            ),
-            SizedBox(height: 15.0,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                _buildTitle('Expense', widthDevice, 50.0),
-                Container(
-                  width: (widthDevice-30)*2/3,
-                  height: 50.0,
-                  child: TextField(
-                    decoration: InputDecoration(
-                        hintText: 'Input expense...',
-                        contentPadding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 5.0)
+    return GestureDetector(
+      child: Scaffold(
+        appBar: AppBar(title: Text('Input Expense'),),
+        body: Container(
+          margin: EdgeInsets.only(left: 15.0, right: 15.0),
+          child: ListView(
+            children: <Widget>[
+              SizedBox(height: 20.0,),
+              Text('Input expense below',style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
+              SizedBox(height: 15.0,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  _buildTitle('Date', widthDevice, 50.0),
+                  Container(
+                    width: (widthDevice-30)*2/3,
+                    height: 50.0,
+                    child: DateTimePicker(
+                      selectedDate: _fromDate,
+                      selectDate: (DateTime date){
+                        setState(() {
+                          _fromDate = date;
+                        });
+                      },
                     ),
-                    onChanged: (String value){
-                      setState(() {
-                        _content = value;
-                      });
-                    },
+                  )
+                ],
+              ),
+              SizedBox(height: 15.0,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  _buildTitle('Expense', widthDevice, 50.0),
+                  Container(
+                    width: (widthDevice-30)*2/3,
+                    height: 50.0,
+                    child: TextField(
+                      decoration: InputDecoration(
+                          hintText: 'Input expense...',
+                          contentPadding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 5.0)
+                      ),
+                      onChanged: (String value){
+                        setState(() {
+                          _content = value;
+                        });
+                      },
 
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 15.0,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                _buildTitle('Money', widthDevice, 50.0),
-                Container(
-                  width: (widthDevice-30)*2/3,
-                  height: 50.0,
-                  child: TextField(
-                    decoration: InputDecoration(
-                        hintText: 'Input money...',
-                        contentPadding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 5.0)
                     ),
-                    onChanged: (String value){
-                      setState(() {
-                        _money = double.parse(value);
-                      });
-                    },
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: 15.0,),
-            submitButton(expenseBloc, context)
-          ],
-        ),
-      )
-      ,
-    );
+                ],
+              ),
+              SizedBox(
+                height: 15.0,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  _buildTitle('Money', widthDevice, 50.0),
+                  Container(
+                    width: (widthDevice-30)*2/3,
+                    height: 50.0,
+                    child: TextField(
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                          hintText: 'Input money...',
+                          contentPadding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 5.0)
+                      ),
+                      onChanged: (String value){
+                        setState(() {
+                          _money = double.parse(value);
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 15.0,),
+              submitButton(expenseBloc, context)
+            ],
+          ),
+        )
+        ,
+      ),
+      onTap: (){
+        FocusScope.of(context).requestFocus(new FocusNode());
+      },
+    )
+      ;
   }
 
   Widget _buildTitle(String title, double width, double mHeight){
@@ -157,10 +163,9 @@ class _InputExpensePageState extends State<InputExpensePage> {
               if(_fromDate != null && _content != null && _money != null){
                 String date = f.format(_fromDate);
                 String dateCon = fC.format(_fromDate);
-                int day = _fromDate.day;
                 int month = _fromDate.month;
                 int year = _fromDate.year;
-                bloc.addExpense(date, dateCon, _content, _money, day, month, year, idUser, context);
+                bloc.addExpense(date, dateCon, _content, _money, month, year, idUser, context);
               }
             },
           ),

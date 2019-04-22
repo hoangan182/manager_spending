@@ -1,13 +1,15 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:my_spending/blocs/income_bloc.dart';
-import 'package:my_spending/models/Income.dart';
-import 'package:my_spending/pickers/date_time_picker.dart';
+import 'package:MySpending/blocs/income_bloc.dart';
+import 'package:MySpending/models/Income.dart';
+import 'package:MySpending/pickers/date_time_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EditIncomePage extends StatefulWidget {
+  Income income;
+
+  EditIncomePage({this.income});
 
   @override
   _EditIncomePageState createState() => _EditIncomePageState();
@@ -18,157 +20,167 @@ class _EditIncomePageState extends State<EditIncomePage> {
   String _content;
   double _money;
 
+  String _curContent;
+  double _curMoney;
+
   TextEditingController _contentController;
   TextEditingController _incomeController;
 
-  DateTime _fromDate = DateTime.now();
+  DateTime _fromDate;
 
   SharedPreferences sharedPreferences;
-  int idUser;
+  int _idUser, _id;
+  String _dateShow;
 
   @override
   void initState() {
     super.initState();
     IncomeBloc incomeBloc = BlocProvider.of<IncomeBloc>(context);
-    getIdUser();
+    _content = widget.income.content;
+    _money = widget.income.income;
+    _idUser = widget.income.idUser;
+    _dateShow = widget.income.dateShow;
+    _curContent = widget.income.content;
+    _curMoney = widget.income.income;
+    _contentController = TextEditingController(text: _curContent);
+    _incomeController = TextEditingController(text: _curMoney.toString());
+    //getIdUser();
   }
 
-  getIdUser() async{
+  getIdUser() async {
     sharedPreferences = await SharedPreferences.getInstance();
-    idUser = sharedPreferences.getInt('idUser');
+    _idUser = sharedPreferences.getInt('idUser');
   }
 
   @override
   Widget build(BuildContext context) {
     IncomeBloc incomeBloc = BlocProvider.of<IncomeBloc>(context);
+    _fromDate = DateTime.parse(widget.income.dateConvert);
+    widthDevice = MediaQuery.of(context).size.width;
+    _idUser = widget.income.idUser;
+    _id = widget.income.id;
 
-    return Scaffold(
+    return GestureDetector(
+      child: Scaffold(
         appBar: AppBar(
           title: Text('Edit Income'),
         ),
         body: Container(
-          margin: EdgeInsets.only(left: 15.0, right: 15.0),
-          child: StreamBuilder<Income>(
-              stream: incomeBloc.outFindIncome,
-              builder: (context, snap) {
-                print('data nhận: ' + snap.data.toString());
-                if (snap.hasData) {
-                  return ListView(
-                      children: <Widget>[
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        Text(
-                          'Edit income below',
-                          style: TextStyle(
-                              fontSize: 16.0, fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(
-                          height: 15.0,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            _buildTitle('Date', widthDevice, 50.0),
-                            Container(
-                              width: (widthDevice - 30) * 2 / 3,
-                              height: 50.0,
-                              child: DateTimePicker(
-                                selectedDate: _fromDate,
-                                selectDate: (DateTime date) {
-                                  setState(() {
-                                    _fromDate = date;
-                                  });
-                                },
-                              ),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 15.0,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            _buildTitle('Income', widthDevice, 50.0),
-                            Container(
-                              width: (widthDevice - 30) * 2 / 3,
-                              height: 50.0,
-                              child: TextField(
-                                controller: _contentController,
-                                decoration: InputDecoration(
-                                    hintText: 'Input income...',
-                                    contentPadding: EdgeInsets.fromLTRB(
-                                        10.0, 20.0, 10.0, 5.0)),
-                                onChanged: (String value) {
-                                  setState(() {
-                                    if (value != null) {
-                                      _content = value;
-                                    } else {
-                                      _content = _content;
-                                    }
-                                  });
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 15.0,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            _buildTitle('Money', widthDevice, 50.0),
-                            Container(
-                              width: (widthDevice - 30) * 2 / 3,
-                              height: 50.0,
-                              child: TextField(
-                                controller: _incomeController,
-                                keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
-                                    hintText: 'Input money...',
-                                    contentPadding: EdgeInsets.fromLTRB(
-                                        10.0, 20.0, 10.0, 5.0)),
-                                onChanged: (String value) {
-                                  setState(() {
-                                    if (value != null) {
-                                      _money = double.parse(value);
-                                    } else {
-                                      _money = _money;
-                                    }
-                                    print('tiền là: ' + _money.toString());
-                                  });
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 15.0,
-                        ),
-//                  Row(
-//                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                    children: <Widget>[
-//                      buttonEdit(incomeBloc, context, _idIncome, _fromDate, _content, _money),
-//                      buttonDelete(incomeBloc, context, _idIncome)
-//                    ],
-//                  )
-                      ],
-                  );
-                } else {
-                  return Center(
-                    child: Text('Không có dữ liệu'),
-                  );
-                }
-              })),
-        );
+            margin: EdgeInsets.only(left: 15.0, right: 15.0),
+            child: ListView(
+              children: <Widget>[
+                SizedBox(
+                  height: 20.0,
+                ),
+                Text(
+                  'Edit income below',
+                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  height: 15.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    _buildTitle('Date', widthDevice, 50.0),
+                    Container(
+                      width: (widthDevice - 30) * 2 / 3,
+                      height: 50.0,
+                      child: DateTimePicker(
+                        selectedDate: _fromDate,
+                        selectDate: (DateTime date) {
+                          setState(() {
+                            _fromDate = date;
+                          });
+                        },
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 15.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    _buildTitle('Income', widthDevice, 50.0),
+                    Container(
+                      width: (widthDevice - 30) * 2 / 3,
+                      height: 50.0,
+                      child: TextField(
+                        controller: _contentController,
+                        decoration: InputDecoration(
+                            hintText: 'Input income...',
+                            contentPadding:
+                            EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 5.0)),
+                        onChanged: (String value) {
+                          setState(() {
+                            if (value != null) {
+                              _content = value;
+                              print(_content);
+                            } else {
+                              _content = _content;
+                            }
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 15.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    _buildTitle('Money', widthDevice, 50.0),
+                    Container(
+                      width: (widthDevice - 30) * 2 / 3,
+                      height: 50.0,
+                      child: TextField(
+                        controller: _incomeController,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                            hintText: 'Input money...',
+                            contentPadding:
+                            EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 5.0)),
+                        onChanged: (String value) {
+                          setState(() {
+                            if (value != null) {
+                              _money = double.parse(value);
+                            } else {
+                              _money = _money;
+                            }
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 15.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    buttonEdit(incomeBloc, context, _id, _idUser, _fromDate, _content, _money),
+                    buttonDelete(incomeBloc, context, _id, _idUser)
+                  ],
+                )
+              ],
+            )),
+      ),
+      onTap: (){
+        FocusScope.of(context).requestFocus(new FocusNode());
+      },
+    )
+      ;
   }
 
-  Widget _buildTitle(String title, double width, double mHeight) {
+  Widget _buildTitle(String title, double mWidth, double mHeight) {
     return Container(
-      width: (width - 30) / 3,
+      width: (mWidth - 30.0) / 3,
       height: mHeight,
       child: Text(
         title,
@@ -179,7 +191,7 @@ class _EditIncomePageState extends State<EditIncomePage> {
     );
   }
 
-  Widget buttonEdit(IncomeBloc bloc, BuildContext context, int id,
+  Widget buttonEdit(IncomeBloc bloc, BuildContext context, int id, int idUser,
       DateTime date, String content, double money) {
     final f = new DateFormat('dd/MM/yyyy');
     final fC = new DateFormat('yyyyMMdd');
@@ -205,6 +217,8 @@ class _EditIncomePageState extends State<EditIncomePage> {
                 int year = date.year;
                 bloc.updateIncome(id, dateShow, dateConvert, content, money,
                     month, year, idUser, context);
+                bloc.getAllIncome(idUser);
+                bloc.getTotalAll(idUser);
               }
             },
           ),
@@ -213,7 +227,8 @@ class _EditIncomePageState extends State<EditIncomePage> {
     );
   }
 
-  Widget buttonDelete(IncomeBloc bloc, BuildContext context, int id) {
+  Widget buttonDelete(
+      IncomeBloc bloc, BuildContext context, int id, int idUser) {
     final f = new DateFormat('dd/MM/yyyy');
     return StreamBuilder<bool>(
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
@@ -231,6 +246,8 @@ class _EditIncomePageState extends State<EditIncomePage> {
             color: Colors.blue[600],
             onPressed: () {
               bloc.deleteIncome(id, idUser, context);
+              bloc.getAllIncome(idUser);
+              bloc.getTotalAll(idUser);
             },
           ),
         );

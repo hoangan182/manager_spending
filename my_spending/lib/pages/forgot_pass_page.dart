@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:my_spending/blocs/forgot_password_bloc.dart';
+import 'package:MySpending/blocs/forgot_password_bloc.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   @override
@@ -19,43 +19,48 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     widthDevice = MediaQuery.of(context).size.width;
     heightDevice = MediaQuery.of(context).size.height;
     final ForgotPasswordBloc bloc = BlocProvider.of<ForgotPasswordBloc>(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Forgot Password'),
-      ),
-      body: ListView(
-        children: <Widget>[
-          Container(
-            height: heightDevice - 56.0,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/bg.jpg'), fit: BoxFit.fill)),
-            child: Form(
-              key: _formkey,
-              child: Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: widthDevice / 3,
-                  ),
-                  _buildUser(),
-                  SizedBox(
-                    height: 15.0,
-                  ),
-                  _buildPhone(),
-                  SizedBox(
-                    height: 25.0,
-                  ),
-                  _submitForgot(bloc),
-                  SizedBox(
-                    height: 25.0,
-                  ),
-                  _getPassword(bloc),
-                ],
+    return GestureDetector(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Forgot Password'),
+        ),
+        body: ListView(
+          children: <Widget>[
+            Container(
+              height: heightDevice - 56.0,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('assets/bg.jpg'), fit: BoxFit.fill)),
+              child: Form(
+                key: _formkey,
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: widthDevice / 3,
+                    ),
+                    _buildUser(),
+                    SizedBox(
+                      height: 15.0,
+                    ),
+                    _buildPhone(),
+                    SizedBox(
+                      height: 25.0,
+                    ),
+                    _submitForgot(bloc),
+                    SizedBox(
+                      height: 25.0,
+                    ),
+                    _getPassword(bloc),
+                  ],
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
+      onTap: (){
+        FocusScope.of(context).requestFocus(new FocusNode());
+      },
     );
   }
 

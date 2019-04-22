@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:my_spending/databases/user_database.dart';
-import 'package:my_spending/models/User.dart';
+import 'package:MySpending/databases/user_database.dart';
+import 'package:MySpending/models/User.dart';
 
 class RegisterBloc extends Bloc{
   StreamController<String> _userRegController = StreamController<String>.broadcast();

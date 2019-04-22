@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_spending/databases/database.dart';
+import 'package:MySpending/databases/database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:my_spending/blocs/login_bloc.dart';
-
+import 'package:MySpending/blocs/login_bloc.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -61,14 +60,15 @@ class _LoginPageState extends State<LoginPage> {
     heightDevice = MediaQuery.of(context).size.height;
     return GestureDetector(
       child: Scaffold(
-        body: SafeArea(child: Stack(
+        body: SafeArea(
+            child: Stack(
           children: <Widget>[
             ListView(
               children: <Widget>[
                 Form(
                     key: _formkey,
                     child: Container(
-                      height: heightDevice,
+                      height: heightDevice - 30.0,
                       alignment: AlignmentDirectional.center,
                       decoration: BoxDecoration(
                         image: DecorationImage(
@@ -95,9 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                                 _buildForgotPassword()
                               ],
                             ),
-
                           ),
-
                           SizedBox(
                             height: 30.0,
                           ),
@@ -116,24 +114,23 @@ class _LoginPageState extends State<LoginPage> {
           ],
         )),
       ),
-      onTap: (){
+      onTap: () {
         FocusScope.of(context).requestFocus(new FocusNode());
       },
-    )
-      ;
+    );
   }
 
   Widget _buildTitle(String text, double top, double bottom,
       AlignmentDirectional alignment, double size) {
     return Align(
         child: Container(
-          margin: EdgeInsets.only(top: top, bottom: bottom),
-          child: Text(
-            text,
-            style: TextStyle(color: Colors.blue[700], fontSize: size),
-          ),
-          alignment: alignment,
-        ));
+      margin: EdgeInsets.only(top: top, bottom: bottom),
+      child: Text(
+        text,
+        style: TextStyle(color: Colors.blue[700], fontSize: size),
+      ),
+      alignment: alignment,
+    ));
   }
 
   Widget _buildCheckRemember() {
@@ -146,17 +143,22 @@ class _LoginPageState extends State<LoginPage> {
         ),
         Text(
           'Remember password',
-          style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.lightBlue[800], fontWeight: FontWeight.bold),
         )
       ],
     );
   }
 
-  Widget _buildForgotPassword(){
+  Widget _buildForgotPassword() {
     return GestureDetector(
-      child: Text('Forgot Password',
-        style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, decoration: TextDecoration.underline),),
-      onTap: (){
+      child: Text(
+        'Forgot Password',
+        style: TextStyle(
+            color: Colors.lightBlue[800],
+            fontWeight: FontWeight.bold,
+            decoration: TextDecoration.underline),
+      ),
+      onTap: () {
         Navigator.pushNamed(context, '/forgot_page');
       },
     );
@@ -164,13 +166,15 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _buildTextNavigation() {
     return GestureDetector(
-      child: Text(
-        'Have not any user? Register!',
-        style: TextStyle(
-            color: Colors.blue[600],
-            fontSize: 14.0,
-            decoration: TextDecoration.underline,
-            fontWeight: FontWeight.bold),
+      child: Container(
+        height: 50.0,
+        child: Text(
+          'Have not any user? Register!',
+          style: TextStyle(
+              color: Colors.lightBlue[800],
+              decoration: TextDecoration.underline,
+              fontWeight: FontWeight.bold),
+        ),
       ),
       onTap: () {
         Navigator.pushNamed(context, '/register');
@@ -180,64 +184,64 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget userField(LoginBloc bloc, BuildContext context) {
     return Container(
-        padding: EdgeInsets.only(left: 10.0, right: 10.0),
-        margin: EdgeInsets.only(left: 15.0, right: 15.0),
-        child: TextFormField(
-          controller: userNameController,
-          decoration: InputDecoration(
-              labelText: 'User name',
-              enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.transparent))),
-          validator: (String value) {
-            if (value.isEmpty) {
-              return 'User is not empty!';
-            } else if (value.length < 6) {
-              return 'Enter must be at least 6 characters';
-            }
-          },
-          onSaved: (String value) {
-            setState(() {
-              userName = value;
-            });
-          },
-        ),
-        decoration: BoxDecoration(
-          border: Border.all(width: 1.0, color: Colors.black12),
-          borderRadius: BorderRadius.circular(5.0),
-          color: Colors.white,
-        ),
-      );
+      padding: EdgeInsets.only(left: 10.0, right: 10.0),
+      margin: EdgeInsets.only(left: 15.0, right: 15.0),
+      child: TextFormField(
+        controller: userNameController,
+        decoration: InputDecoration(
+            labelText: 'User name',
+            enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.transparent))),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'User is not empty!';
+          } else if (value.length < 6) {
+            return 'Enter must be at least 6 characters';
+          }
+        },
+        onSaved: (String value) {
+          setState(() {
+            userName = value;
+          });
+        },
+      ),
+      decoration: BoxDecoration(
+        border: Border.all(width: 1.0, color: Colors.black12),
+        borderRadius: BorderRadius.circular(5.0),
+        color: Colors.white,
+      ),
+    );
   }
 
   Widget passwordField(LoginBloc bloc, BuildContext context) {
     return Container(
-        padding: EdgeInsets.only(left: 10.0, right: 10.0),
-        decoration: BoxDecoration(
-          border: Border.all(width: 1.0, color: Colors.black12),
-          borderRadius: BorderRadius.circular(5.0),
-          color: Colors.white,
-        ),
-        margin: EdgeInsets.only(left: 15.0, right: 15.0),
-        child: TextFormField(
+      padding: EdgeInsets.only(left: 10.0, right: 10.0),
+      decoration: BoxDecoration(
+        border: Border.all(width: 1.0, color: Colors.black12),
+        borderRadius: BorderRadius.circular(5.0),
+        color: Colors.white,
+      ),
+      margin: EdgeInsets.only(left: 15.0, right: 15.0),
+      child: TextFormField(
           controller: passWordController,
-          //obscureText: true,
-            decoration: InputDecoration(
-                labelText: 'Pass word',
-                enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent))),
-            validator: (String value) {
-              if (value.isEmpty) {
-                return 'Password is not empty';
-              } else if (value.length < 8) {
-                return 'Enter must be at least 8 characters';
-              }
-            },
-            onSaved: (String value) {
-              setState(() {
-                passWord = value;
-              });
-            }),
-      );
+          obscureText: true,
+          decoration: InputDecoration(
+              labelText: 'Pass word',
+              enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.transparent))),
+          validator: (String value) {
+            if (value.isEmpty) {
+              return 'Password is not empty';
+            } else if (value.length < 8) {
+              return 'Enter must be at least 8 characters';
+            }
+          },
+          onSaved: (String value) {
+            setState(() {
+              passWord = value;
+            });
+          }),
+    );
   }
 
   Widget submitButton(LoginBloc bloc, BuildContext context) {
@@ -254,15 +258,14 @@ class _LoginPageState extends State<LoginPage> {
               'Login',
               style: TextStyle(color: Colors.white),
             ),
-            color: Colors.blue[600],
+            color: Colors.blue[700],
             onPressed: () {
-              if(!_formkey.currentState.validate()){
+              if (!_formkey.currentState.validate()) {
                 return;
-              }else {
+              } else {
                 _formkey.currentState.save();
                 bloc.login(context, userName, passWord, _valueCheck);
               }
-
             },
           ),
         );
