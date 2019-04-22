@@ -1,5 +1,5 @@
 # manager_spending
-App for manager spending
+App for manager spending: 
 Simple example use dabase and bloc pattern to build three simple functions. In this app we can do:
  - Register
  - Login
